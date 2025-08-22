@@ -10,6 +10,8 @@ const tripSchema = new Schema(
     startDateNo: { type: String, required: true },
     endDateNO: { type: String, required: true },
     accommodationNO: { type: String, required: true },
+    usermail: { type: String, required: true },
+    status: {type:String, required:true}
 
   },
   {

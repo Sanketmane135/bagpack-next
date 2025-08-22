@@ -14,7 +14,7 @@ export const pacakgesData1=[
     {
         id: 1,
         title: "The mighty Goa",
-        price: 20000,
+        price: 16500,
         days:5,
         photo:goaKnow,
         about:"Experience the romantic charm of Goa with this specially curated honeymoon package. Explore the sun-kissed beaches, historic forts, vibrant nightlife, and serene backwaters, creating unforgettable memories with your loved one.",
@@ -76,7 +76,7 @@ export const pacakgesData1=[
     {
         id: 2,
         title: "The amazing kerla",
-        price:70000,
+        price:200,
         days:8,
         photo:kerlaKnow,
         about:"Experience the serene beauty of Kerala, God's Own Country! This enchanting trip takes you through lush green tea plantations, tranquil backwaters, pristine beaches, and vibrant cultural heritage. Enjoy a houseboat cruise in Alleppey, explore Munnar’s breathtaking landscapes, and witness the rich traditions of Kathakali and Ayurvedic wellness. Perfect for nature lovers and adventure seekers alike!",
@@ -150,7 +150,7 @@ export const pacakgesData1=[
         title: "The brave Maharashtra",
         price:15000,
         days:4,
-        photo:kerlaKnow,
+        photo:mahaKnow,
         about:"Discover the rich cultural heritage, scenic hill stations, and vibrant cities of Maharashtra with this 4-day tour. From the bustling streets of Mumbai to the serene landscapes of Lonavala and the historic caves of Ajanta & Ellora, this package is designed for an exciting and memorable getaway.",
         highlights:[
             "Explore Mumbai’s famous attractions like Gateway of India & Marine Drive",
@@ -198,7 +198,7 @@ export const pacakgesData1=[
     {
         id: 4,
         title: "The traditional Rajsthan",
-        price:30000,
+        price:10000,
         days:6,
         photo:rajKnow,
         about:"Embark on a mesmerizing journey through Rajasthan, the land of majestic palaces, grand forts, and rich cultural heritage. This 6-day tour is perfect for solo travelers, friends, and families who want to explore the vibrant cities of Jaipur, Jodhpur, and Udaipur. From historic landmarks to traditional Rajasthani cuisine, this trip offers an unforgettable experience of India’s royal past.. ",
@@ -261,8 +261,8 @@ export const pacakgesData1=[
     },
     {
         id: 5,
-        title: "The North India ",
-        price:80000,
+        title: "The North India",
+        price:10000,
         days:6,
         photo:northKnow,
         about:"Embark on an unforgettable journey through North India, where history, spirituality, and breathtaking landscapes come together. This 6-day trip takes you through Delhi, Agra, and Jaipur (Golden Triangle) with a touch of the Himalayas in Rishikesh. Whether you're traveling solo or with company, this package offers a perfect mix of adventure, culture, and relaxation. ",
@@ -628,13 +628,7 @@ export const pacakgesData1=[
                 day:8,
                 title:" Visit the Statue of Unity & Departure",
                 travel:"On your final day, drive towards Kevadia to visit the Statue of Unity, the world's tallest statue dedicated to Sardar Vallabhbhai Patel. Explore the Valley of Flowers, Laser Light Show, and Museum. After an enriching experience, you’ll be dropped off at Ahmedabad airport/railway station for your departure."
-
-
             },
-
         ],
-        
     },
-   
-
 ]

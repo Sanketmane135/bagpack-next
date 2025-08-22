@@ -1,9 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../components/footer";
-import {addTripToData} from '../../actions/trips.action'
+import {addTripToData} from '../../actions/trips.action';
+import { useRouter } from "next/navigation";
+import axios from "axios";
+
+
+
 export default function Custom() {
   const [count, setCount] = useState(1);
+  const [localValue, setLocalValue]=useState('');
+  const [tripStatus, setTripStatus]=useState('complete');
+    const [findMail, setMail] = useState('');
 
   // Store all inputs in a single state object
   const [tripData, setTripData] = useState({
@@ -16,13 +24,50 @@ export default function Custom() {
     activities: [],
   });
 
+  const router = useRouter();
+
+  
+    useEffect(() => {
+      const email = window.localStorage.getItem("mailsign") || '';
+      setLocalValue(email);
+    }, []);
+
+  useEffect(() => {
+    const email = window.localStorage.getItem("mailsign") || '';
+    
+    console.log("Stored email:", email);
+    
+    setMail(email);
+
+    console.log(
+      tripData
+    )
+  }, []);
+ 
+
   const addTriptoDB = async() => {
-    alert("trip booked successfully");
-    console.log("Add trip Function Calls");
-    const result = await addTripToData({dest:tripData.destination, adultNo:tripData.adult, childNo:tripData.child, startDateNo:tripData.startDate, endDateNO:tripData.endDate, accommodationNO:tripData.accommodation} )
-    console.log(result);
-    
-    
+
+     try {
+    const res = await axios.post(
+      "https://bagpackbackendweb.onrender.com/api/bagpack/addCustom",
+    {
+        dest: tripData.destination,
+        adultNo: tripData.adult,
+        childNo: tripData.child,
+        startDateNo: tripData.startDate,
+        endDateNO: tripData.endDate,
+        accommodationNO: tripData.accommodation,
+        usermail: findMail,
+        status: "under process"
+      }
+    );
+    console.log("Trip added:", res.data);
+  } catch (error) {
+    console.error("Error adding trip:", error);
+  }
+    // console.log("Add trip Function Calls");
+    // const result = await addTripToData({dest:tripData.destination, adultNo:tripData.adult, childNo:tripData.child, startDateNo:tripData.startDate, endDateNO:tripData.endDate, accommodationNO:tripData.accommodation ,usermail:localValue, status:tripStatus} )
+   router.push('/custom/booked');
 }
 
 
@@ -326,7 +371,7 @@ const fill=()=>{
    
       <div className="custom-inner">
         <div className="custom-heading">
-          <h5>Customize Your Dream Trip {count}</h5>
+          <h5>Customize Your Dream Trip </h5>
           <p>Follow the steps below to plan your perfect getaway</p>
         </div>
         <div className='custom-lower'>

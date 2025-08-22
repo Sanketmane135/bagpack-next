@@ -38,7 +38,7 @@ export default function Contact() {
                 <h4 className='gamil-title'>G-Mail</h4>
                 <p>Wait less than 5 min</p>
                 <p className='email-p'> sanketmane0407@gmail.com</p>
-                <button className='know-btn'  onClick={() => window.location.href  = "mailto:sanketmane0407@gmail.com?subject=Hello&body=Hi, how are you?"}>G-mail</button>
+                <button className='know-btn'  onClick={() => window.location.href = "mailto:sanketmane0407@gmail.com"}>G-mail</button>
             </div>
 
         </div>

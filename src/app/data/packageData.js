@@ -13,14 +13,14 @@ const travelDestinations = new Map([
    { 
        id: 0, 
        name: "Goa", 
-       price: "20000", 
+       price: "50000", 
        image: goa1.src
     },
 
     { 
        id: 1, 
        name: "Kerala", 
-       price: "70000", 
+       price: "200", 
        image: kerala1.src
     },
 
@@ -34,13 +34,13 @@ const travelDestinations = new Map([
     { 
        id: 3, 
        name: "Rajsthan", 
-       price: "30000", 
+       price: "10000", 
        image: rajasthan1.src
     },
     { 
        id: 4, 
        name: "NorthEast", 
-       price: "80000", 
+       price: "10000", 
        image: north1.src
     },
     { 

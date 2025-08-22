@@ -7,10 +7,10 @@ const addTripToData = async (params) => {
   connectToDatabase()
 
   try {
-      const {dest,adultNo,childNo,startDateNo,endDateNO,accommodationNO} = params
-      console.log({ dest,adultNo,childNo,startDateNo,endDateNO,accommodationNO});
+      const {dest,adultNo,childNo,startDateNo,endDateNO,accommodationNO,usermail,status} = params
+      console.log({ dest,adultNo,childNo,startDateNo,endDateNO,accommodationNO,usermail,status});
       
-      const data = Trip.insertMany({dest,adultNo,childNo,startDateNo,endDateNO,accommodationNO});
+      const data = Trip.insertMany({dest,adultNo,childNo,startDateNo,endDateNO,accommodationNO,usermail,status});
       console.log(data);
       return {message:"Data Added",data}
   } catch (error) {
@@ -18,4 +18,19 @@ const addTripToData = async (params) => {
       
   }
 }
-export {addTripToData}
+
+const getTrip = async (params) => {
+    connectToDatabase()
+    const {email}=params
+    try {
+        const data = await Trip.findOne({ usermail: `${email}` });
+       
+        return data?.toObject();
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+export {addTripToData,getTrip }

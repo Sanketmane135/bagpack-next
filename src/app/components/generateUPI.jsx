@@ -1,38 +1,28 @@
-// import generateQR from "@omkarbhosale/upiqr";
-
-
-// const GenerateQrCode = async({amount})=>{
-//   let data = await generateQR({ UPI_ID: "sanketmane0407@okhdfcbank", AMOUNT: amount });
-
-//   return (
-//     <img src={data} alt="qr code"/>
-//           )
-// }
-
-// export default GenerateQrCode
-
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import generateQR from "@omkarbhosale/upiqr";
 
-// Pieces: Comment | Pieces: Explain
-const Qrcode = ({ amount }) => {
+const Qrcode = ({ amount, totalPeople }) => {
   const [qrCode, setQrCode] = useState(null);
   const [error, setError] = useState(null);
 
-  console.log(process.env.NEXT_PUBLIC_UPI_ID);
+  // Ensure numbers
+  const totalAmount = Number(amount) * Number(totalPeople);
 
-  // Pieces: Comment | Pieces: Explain
   useEffect(() => {
-    // Pieces: Comment | Pieces: Explain
     const fetchQRCode = async () => {
       try {
-        // Generate the QR code as a Base64 URL
+        // if (isNaN(totalAmount) || totalAmount <= 0) {
+        //   setError("Invalid amount");
+        //   return;
+        // }
+
         const data = await generateQR({
           UPI_ID: process.env.NEXT_PUBLIC_UPI_ID,
-          AMOUNT: amount,
+          AMOUNT: Number(amount), // keep as number
         });
+
         setQrCode(data);
       } catch (error) {
         setError("Error generating QR code");
@@ -41,7 +31,7 @@ const Qrcode = ({ amount }) => {
     };
 
     fetchQRCode();
-  }, [amount]);
+  }, [totalAmount]);
 
   return (
     <div>

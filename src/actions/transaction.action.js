@@ -7,10 +7,10 @@ const addTransactionToData = async (params) => {
   connectToDatabase()
 
   try {
-      const {transId} = params
-      console.log({transId });
+      const {transId,status} = params
+      console.log({transId ,status});
       
-      const data = Transaction.insertOne({transId});
+      const data = Transaction.insertOne({transId,status});
       console.log(data);
       return {message:"Data Added",data}
   } catch (error) {

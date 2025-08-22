@@ -11,9 +11,10 @@ function Page() {
   const [transId, settransId] = useState('');
   const [amount, setAmount] = useState(1)
   const [qrShow, setQrshow] = useState(false);
+  const [status, setStatus] = useState("unchecked");
 
   useEffect(() => {
-    // Dynamically set amount based on currentId
+    
     if (currentId === "Goa") {
       setAmount(20000);
     } else if (currentId === "Kerala") {
@@ -51,7 +52,7 @@ function Page() {
 
    
       console.log("Add user Function Calls");
-      const result = await addTransactionToData({transId:transId} )
+      const result = await addTransactionToData({transId:transId,status:status} )
       
 
   

@@ -1,10 +1,12 @@
 
 "use client";
-import React, { useState } from 'react';
-import Footer from '../components/footer';
-import Link from 'next/link';
+import React, { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {addPackData} from '../../actions/pack.action'
+import {addPackData} from '../../../../actions/pack.action'
+import Footer from '../../../components/footer';
+import { usePathname } from "next/navigation";
+import axios from 'axios';
+
 
 export default function Book() {
   const [formData, setFormData] = useState({
@@ -14,91 +16,132 @@ export default function Book() {
     fullName: '',
     phoneNumber: null,
     startDate: '',
-    endDate: '',
     accommodation: 'bungalow',
     email: '',
     activities: ''
   });
+
+
   const [packStatus , setPackStatus]=useState("Pending Aproval");
+
+  const [pack,setPack]=useState('');
+
   const router = useRouter();
+  const pathname = usePathname(); 
+  const currentId = pathname.split('/')[2];
+  console.log(`the trip id is ${currentId}`);
 
-  // const handleSubmit2 = async (e) => {
-  //   e.preventDefault(); // Prevent default navigation
+    const [packages, setPackages] = useState(null);
+  const [notFound, setNotFound] = useState(false);
+
+  useEffect(() => {
+    if (!currentId) return;
+
+    const fetchPackage = async () => {
+      try {
+        const res = await axios.get(
+          `https://bagpackbackendweb.onrender.com/api/bagpack/builtpackages/${currentId}`
+        );
+
+        if (!res.data.tripPack) {
+          setNotFound(true);
+        } else {
+          setPackages(res.data.tripPack);
+          setPack(res.data.tripPack.tripName);
+          setNotFound(false);
+        }
+      } catch (err) {
+        console.error("Error fetching package:", err);
+        setNotFound(true);
+      }
+    };
+
+    fetchPackage();
+    
+  }, [currentId]);
+
+  useEffect(() => {
+    console.log("Package data fetched:", packages);
+  }, [packages]);
+
+   useEffect(() => {
+      // Dynamically set amount based on currentId
+      if (currentId == 0) {
+        setPack("Goa");
+      } else if (currentId ==1) {
+        setPack("Kerala");
+      }else if(currentId == 2){
+        setPack("Maharashtra");
+      }else if(currentId == 3){
+        setPack("Rajasthan");
+      } else if(currentId == 4){
+        setPack("NorthEast");
+      }else if(currentId == 5){
+        setPack("Kashmir");
+      }else if(currentId == 6){
+        setPack("HimachalPradesh");
+      }else if(currentId ==7){
+        setPack("Andaman");
+      }else if(currentId == 8){
+        setPack("Gujarat");
+      }
+      else {
+        setPack("Loading..."); 
+      }
+    }, [currentId]);
+
+
+
+
+    
   
-  //   const {
-  //     packageName, adults, children, fullName, phoneNumber,
-  //     startDate, endDate, accommodation, email
-  //   } = formData;
-  
-  //   if (
-  //     !packageName || !fullName || !phoneNumber || !startDate ||
-  //     !endDate || !accommodation || !email
-  //   ) {
-  //     alert("Please fill in all required fields.");
-  //     return;
-  //   }
-  //   if(formData.phoneNumber.length>10 || formData.phoneNumber.length<10 ){
-  //     alert("Phone no should be of 10 digit")
-  //   }
-
-  
-  //   if (new Date(endDate) < new Date(startDate)) {
-  //     alert("End date cannot be earlier than start date.");
-  //     return;
-  //   }
-
-
-  // console.log("Add user Function Calls");
-  // const result = await addPackData({packName:formData.packageName, adultsId:formData.adults, childId:formData.children, name:formData.fullName, phoneNO:formData.phoneNumber, starDate:formData.startDate ,endDate:formData.endDate, acco:formData.accommodation, emailId:formData.email, status:packStatus} );
-  
-  //   router.push(`/book/payment/${packageName}`);
-  // };
-
   const handleSubmit2 = async (e) => {
     e.preventDefault(); // Prevent form from reloading the page
   
-    const {
-      packageName, adults, children, fullName, phoneNumber,
-      startDate, endDate, accommodation, email
-    } = formData;
+    const {packageName, adults, children, fullName, phoneNumber,startDate, accommodation, email} = formData;
   
-    // ✅ Required field validation
-    if (!packageName || !fullName || !phoneNumber || !startDate ||
-        !endDate || !accommodation || !email) {
+    // Validate required fields
+    // Ensure that all required fields are filled in before proceeding
+    if (!packageName || !fullName || !phoneNumber || !startDate|| !accommodation || !email) {
       alert("Please fill in all required fields.");
       return;
     }
   
-    // ✅ Phone number validation
+    // Validate phone number format
+    // Ensure that the phone number is exactly 10 digits long
     if (phoneNumber.length !== 10) {
       alert("Phone number should be exactly 10 digits.");
       return;
     }
   
-    // ✅ Date validation
-    if (new Date(endDate) < new Date(startDate)) {
-      alert("End date cannot be earlier than start date.");
-      return;
-    }
-  
-    // ✅ Passed all validations - proceed
     console.log("Add user Function Called");
   
     try {
-      const result = await addPackData({
-        packName: packageName,
-        adultsId: adults,
-        childId: children,
-        name: fullName,
-        phoneNO: phoneNumber,
-        starDate: startDate,
-        endDate: endDate,
-        acco: accommodation,
-        emailId: email,
-        status: packStatus
-      });
-  
-      router.push(`/book/payment/${packageName}`);
+      // const result = await addPackData({
+      //   packName: pack,
+      //   adultsId: adults,
+      //   childId: children,
+      //   name: fullName,
+      //   phoneNO: phoneNumber,
+      //   starDate: startDate,
+      //   acco: accommodation,
+      //   emailId: email,
+      //   status: packStatus
+      // });
+      
+       const res = await axios.post("https://bagpackbackendweb.onrender.com/api/bagpack/addpackage", {
+          packName: formData.packageName,
+          adultsId: formData.adults,
+          childId: formData.children,
+          name: formData.fullName,
+          phoneNO: formData.phoneNumber,
+          starDate: formData.startDate,
+          acco: formData.accommodation,
+          emailId: formData.email,
+          status: "pending approval"
+       });
+      console.log("Success:", res.data);
+      router.push(`/knowmore/${packages._id}/tripbook/payment?children=${children}&adults=${adults}&packpid=${packages._id}`);
     } catch (error) {
       console.error("Failed to add package data:", error);
       alert("Something went wrong. Please try again.");
@@ -120,22 +163,7 @@ export default function Book() {
     }));
   };
 
-  const handleSubmit = async() => {
-    if (!formData.fullName || !formData.email || !formData.phoneNumber) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-   
-    if (new Date(formData.endDate) < new Date(formData.startDate)) {
-      alert("End date cannot be earlier than start date.");
-      return;
-    }
-    console.log("Form Submitted", formData);
-
-    
-
-   
-  };
+ 
 
   return (
     <>
@@ -143,7 +171,7 @@ export default function Book() {
         <div className="book-div-inner">
           <div className="book-heading-div">
             <h5>Book Your Trip</h5>
-            <p>Fill in the details to plan your perfect getaway.</p>
+            <p>Fill in the details to plan your perfect getaway .</p>
           </div>
 
           <div className="book-input-div">
@@ -151,11 +179,12 @@ export default function Book() {
               {/* Package Name */}
               <div className="book-destination">
                 <label>Package Name</label>
-                <select name="packageName" value={formData.packageName} onChange={handleChange}>
+                {/* <select name="packageName" value={formData.packageName} onChange={handleChange}>
                   {["Goa", "Kerala", "Maharashtra", "Rajasthan", "NorthEast", "Kashmir", "HimachalPradesh", "Gujarat"].map((place) => (
                     <option key={place} value={place}>{place}</option>
                   ))}
-                </select>
+                </select> */}
+                <input type='text' value={pack} />
               </div>
 
               {/* Number of Travelers */}
@@ -202,10 +231,7 @@ export default function Book() {
                     <label>Start Date</label>
                     <input type="date" name="startDate" className="book-start" value={formData.startDate} onChange={handleChange} required />
                   </div>
-                  <div className="book-end-date">
-                    <label>End Date</label>
-                    <input type="date" name="endDate" className="book-start" value={formData.endDate} onChange={handleChange} required />
-                  </div>
+                  
                 </div>
               </div>
 
@@ -229,11 +255,11 @@ export default function Book() {
 
               {/* Activities */}
               <div className="book-activities">
-                <label>Preferred Activities</label>
+                <label>Any Note</label>
                 <input
                   type="text"
                   name="activities"
-                  placeholder="e.g., sightseeing, beach, hiking"
+                  placeholder="e.g., Prefering the non-veg food"
                   value={formData.activities}
                   onChange={handleChange}
                 />
@@ -249,7 +275,7 @@ export default function Book() {
         </div>
       </div>
 
-      <Footer />
+      <Footer/>
     </>
   );
 }

@@ -1,11 +1,31 @@
-
 "use client";
-import React from 'react'
-import custom from '../photos/man02.png'
-import cloud from '../photos/cloud.png'
-import Link from 'next/link';
+import React from 'react';
+import custom from '../photos/man02.png';
+import cloud from '../photos/cloud.png';
+import { useState,useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
 
 export default function Custmize() {
+
+  const [localValue, setLocalValue]=useState('');
+  const router = useRouter();
+
+  const handleClick=()=>{
+    if (localValue.length > 5) {
+      router.push('/custom');
+    } else {
+      alert("You dont have logined log in first");
+      router.push('/login');
+    }
+  }
+
+  useEffect(() => {
+        const email = window.localStorage.getItem("mailsign") || '';
+        setLocalValue(email);
+      }, []);
+  
+  
   return (
     <div className='custmize-main'>
 
@@ -17,7 +37,7 @@ export default function Custmize() {
             <p className='not'>Not Interested In Our Packages..?</p> 
             <p className='dont'>Don't Worry </p>
             <p className='now'>Now Customize Your Trip With Us</p>
-            <Link href={"/custom"} ><button className='know-btn'>Customize</button></Link>
+           <button className='know-btn' onClick={handleClick}>Customize</button>
          </div>
 
          <img src={cloud.src} alt='message' className='cloud-msg' />

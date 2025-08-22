@@ -10,10 +10,9 @@ const packSchema = new Schema(
     name:{ type: String, required: true },
     phoneNO: { type: Number, required: true },
     starDate: { type: String, required: true },
-    endDate: { type: String, required: true },
     acco:{type: String, required: true},
     emailId:{type: String, required: true},
-
+    status:{type: String, required: true},
   },
   {
     timestamps: true,

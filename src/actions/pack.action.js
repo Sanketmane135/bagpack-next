@@ -7,10 +7,10 @@ const addPackData = async (params) => {
   connectToDatabase()
 
   try {
-      const {packName,adultsId,childId,name, phoneNO, starDate,endDate,acco, emailId} = params
-      console.log({packName,adultsId,childId,name, phoneNO, starDate,endDate,acco, emailId });
+      const {packName,adultsId,childId,name, phoneNO, starDate,acco, emailId,status} = params
+      console.log({packName,adultsId,childId,name, phoneNO, starDate,acco, emailId,status });
       
-      const data = Package.insertOne({packName,adultsId,childId,name, phoneNO, starDate,endDate,acco, emailId });
+      const data = Package.insertOne({packName,adultsId,childId,name, phoneNO, starDate,acco, emailId,status });
       console.log(data);
       return {message:"Data Added",data}
   } catch (error) {
@@ -18,4 +18,20 @@ const addPackData = async (params) => {
       
   }
 }
-export {addPackData}
+
+const getPackTrip = async (params) => {
+    connectToDatabase();
+    // console.log("Email in the params : ",params);
+    
+    const email=params;
+    try {
+        const data = await Package.find({ emailId: params });
+        // console.log(data)
+        
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export {addPackData, getPackTrip}

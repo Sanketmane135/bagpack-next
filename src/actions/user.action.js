@@ -14,10 +14,11 @@ const addUserData = async (params) => {
   connectToDatabase()
 
   try {
-      const {firstName, lastName, email, otp, password } = params
-      console.log({firstName, lastName, email, otp, password });
+      const {firstName, lastName, email,  password ,status} = params
+      console.log({firstName, lastName, email,  password , status});
       
-      const data = Login.insertOne({firstName, lastName, email, otp, password });
+      const data = await Login.create({firstName, lastName, email, password, status});
+      // await Login.create({ firstName, lastName, email, password });
       console.log(data);
       return {message:"Data Added",data}
   } catch (error) {
@@ -26,15 +27,18 @@ const addUserData = async (params) => {
   }
 }
 
-const getUser = async () => {
-    connectToDatabase()
-
+const getUser = async (params) => {
+    connectToDatabase();
+    const { email, password } = params;
+  
     try {
-        const data = await Login.find()
-        return data
+      const data = await Login.findOne({ email, password });
+  
+      return data?.toObject(); // ✅ Mongoose object to plain JS object
     } catch (error) {
-        console.log(error);
-        
+      console.log("Error in getUser:", error);
+      return null;
     }
-}
+  };
+  
 export {addUserData,getUser}
